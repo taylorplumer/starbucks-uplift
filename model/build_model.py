@@ -20,12 +20,34 @@ from sklearn.metrics import accuracy_score
 
 
 def load_data(data_filepath):
+    
+    """
+    Load data from flat file 
+    
+    Args:
+        data_filepath: path where flat csv file is located
+    
+    Returns:
+        df: dataframe of flat file
+    """
     df = pd.read_csv(data_filepath, parse_dates = ['became_member_on'])
     df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
     
     return df
 
 def feature_engineering(df):
+    
+    
+    """
+    Performs remaining data preprocessing and feature engineering to transform data to format ready for model building
+    
+    Args:
+        df: loaded dataframe
+    
+    Returns:
+        df: clean dataframe ready for model building (or intermediary upsampling step)
+    
+    """
     
     df = df.loc[df.event == 'offer received']
       
@@ -51,6 +73,20 @@ def feature_engineering(df):
 
 def upsample(df, column, majority_value, minority_value):
     
+    """
+    
+    Upsamples dataframe to address class imbalance
+    
+    Args:
+        df: dataframe 
+        column: string feature that contains class imbalance
+        majority_value: value of feature that is majority
+        minority_value: value of feature that is minority
+    
+    Returns:
+        df_upsampled: Dataframe with upsampling. Note that this should only be for training data.
+    """
+    
     # Up-sample Minority Class approach from Elite Data Science 
     # https://elitedatascience.com/imbalanced-classes
 
@@ -73,6 +109,18 @@ def upsample(df, column, majority_value, minority_value):
     return df_upsampled
 
 def upsample_train(train_df):
+    
+    """
+    Upsamples training data and returns X and y dataframes for build_model arguements
+    
+    Args:
+        train_df: dataframe containing training data.
+    
+    Returns:
+        X_train: dataframe containing features to be inputted for classifier model
+        y_train: dataframe containing 'target_class'
+    
+    """
     train_df_upsample = upsample(train_df, 'treatment', 0, 1)
     X_train = train_df_upsample.drop(columns=['treatment', 'outcome','target_class'], axis=1)
     y_train = train_df_upsample.target_class
@@ -83,6 +131,13 @@ def upsample_train(train_df):
 
 
 def build_model():
+    
+    """
+    Builds pipeline and use grid search to perform classification
+    
+    Returns:
+        cv: GridSearchCV pipeline with best parameters for the model
+    """
     pipeline = Pipeline([
         ('clf', RandomForestClassifier())
         ])
@@ -105,10 +160,10 @@ def evaluate_model(model, X_test, Y_test):
     """
     Evaluates model by providing individual category and summary metrics of model performance
     Args:
-        model: MultiOutputClassifier model
+        model: RandomForestClassifier model
         X_test: subset of X values withheld from the model building process
         Y_test: subset of Y values witheld from the model building process and used to evaluate model predictions
-        category_names: labels for model
+        
     Returns:
         report: classification report with evaluation metrics (f1, precision, recall, support)
     """
@@ -128,7 +183,7 @@ def save_report(report):
     Loads classification report to csv file
     Args:
         report: classification report returned from evaluate_model function
-        report_filepath: path for where to save report
+        
     Returns:
         report_df: save dataframe as a csv at specified file path
     """
@@ -149,6 +204,18 @@ def save_report(report):
 
 
 def calc_uplift(model, df):
+    
+    """
+    Calculates uplift scores for entire dataframe
+    
+    Args:
+        model: RandomForestClassifier model
+        df: clean dataframe that was returned form feature_engineering() function
+    
+    Returns:
+        df: dataframe with uplifts scores for each event appended as series, titled 'uplift_score', as last column of dataframe
+        
+    """
     df_model = df.drop(['outcome', 'treatment','target_class'],axis=1)
     overall_proba = model.predict_proba(df_model)
 
@@ -165,6 +232,16 @@ def calc_uplift(model, df):
 
     
 def calc_cumulative_gains(df):
+    
+    """
+    Creates dataframe for cumulative gain chart
+    
+    Args:
+        df: dataframe containing uplift scores
+    
+    Returns:
+        df: dataframe containing cumulative gain % values for uplift model corresponding with % of population
+    """
     df['TR_Value'] = 3
     
     rows = []

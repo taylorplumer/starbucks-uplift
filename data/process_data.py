@@ -11,6 +11,18 @@ tqdm.pandas()
 
 def clean_transcript(df):
     
+    """
+    Data preprocessing for transcript dataframe
+    
+    Args:
+        df: dataframe of transcript file
+    
+    Returns:
+        df: clean dataframe to be merged with profile dataframe
+    
+    """
+    
+    
     df = df.rename(columns={'person': 'id'})
     normalized_value = json_normalize(df['value'])
     normalized_value['offer_id'] = normalized_value['offer_id'].fillna(normalized_value['offer id'])
@@ -24,7 +36,29 @@ def clean_transcript(df):
 
 def clean_profile(df):
     
+    """
+    Data preprocessing for profile dataframe
+    
+    Args:
+        df: dataframe of profile file
+    
+    Returns:
+        df: clean dataframe to be merged with transcript dataframe
+    
+    """
+    
     def days_from_today(date):
+        
+        """
+        Function to be used with pandas apply to create "days_as_member" feature
+        
+        Args:
+            date: date value of 'became_member_on'
+        
+        Returns:
+           days: integer that is the time delta from today and date value
+        
+        """
         delta = datetime.today() - date
 
         days = delta.days
@@ -39,6 +73,19 @@ def clean_profile(df):
 
 
 def clean_portfolio(df):
+    
+    """
+    Data preprocessing for portfolio dataframe
+    
+    Args:
+        df: dataframe of portfolio file
+    
+    Returns:
+        df: clean dataframe to be merged with the transcript + profile merged dataframe
+    
+    """
+    
+    
     
     df = df.rename(columns={'id': 'offer_id'})
         
@@ -55,6 +102,19 @@ def clean_portfolio(df):
 
 
 def create_merged_df(transcript, portfolio, profile):
+    
+    """
+    Merge three dataframes to create one consolidated dataframe 
+    
+    Args:
+        transcript: dataframe of transcript file that has been cleansed
+        portfolio: dataframe of portfolio file that has been cleansed
+        profile: dataframe of profile file that has been cleansed 
+    
+    Returns:
+        df: merged dataframe of all three input dataframes that is on an event level unit of analysis
+    
+    """
     df = transcript.merge(profile, on='id')
     
     df = df.merge(portfolio, on='offer_id', how='left')
@@ -63,6 +123,17 @@ def create_merged_df(transcript, portfolio, profile):
     
 
 def determine_max_time(event, time, duration):
+    
+    """
+    Calculate maximum time where offer is valid.
+    
+    Args:
+        event: string value to determine whether calculation is necessary
+        time: integer value to be added with duration arguement value
+        duration: integer value to be added with time arguement value
+    
+    
+    """
     if event == 'offer received':
         max_time = time + duration
         return max_time
@@ -71,6 +142,22 @@ def determine_max_time(event, time, duration):
 
 
 def set_treatment_outcome(df):
+    
+    """
+    
+    Create binary values for event of whether treatment and outcome occurred.
+    
+    'treatment' binary feature created to indicate wheather treatment occured, aka whether the customer viewed offer.
+    'outcome' binary feature created to indicate whether transaction occured during offer duration.
+    
+    
+    Args:
+        df: merged dataframe resulting from create_merged_df() function
+    
+    Returns:
+        df: dataframe with 'treatment' and 'outcome' binary features. See 'processed_data_11202019.csv' file for example
+    
+    """
     
     id_list = df.id.unique().tolist()
 
@@ -108,6 +195,15 @@ def set_treatment_outcome(df):
     return df
 
 def save_data(df, filepath):
+    
+    """
+    
+    Saves file to designated filepath.
+    
+    Args:
+        df: processed dataframe to load into the database
+        filepath: path to store the flat file
+    """
     df.to_csv(filepath, index=False)
 
 
