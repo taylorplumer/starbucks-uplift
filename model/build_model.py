@@ -143,11 +143,10 @@ def build_model():
         ])
 
     parameters = {
-            'clf__n_estimators': [50, 100, 200],
-            'clf__min_samples_split': [2, 3, 4],
-            'clf__max_depth' : [4,5,6],
-            'clf__bootstrap': [True, False],
-            'clf__criterion': ['gini', 'entropy']
+            'clf__n_estimators': [50, 100, 200], # number of trees in forest
+            'clf__min_samples_split': [2, 3, 4], # minimum number of samples required for split to occur
+            'clf__max_depth' : [4,5,6], # maximum depth of the tree; min samples_split supercedes in cases where max_depth isn't sufficient
+            'clf__bootstrap': [True, False] # determine whether whole dataset should be used to build each tree
 
     }
 
