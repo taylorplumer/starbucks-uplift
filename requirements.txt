@@ -1,0 +1,8 @@
+
+Flask==0.12.4
+numpy==1.17.4
+pandas==0.25.3
+plotly==4.3.0
+scikit-learn==0.21.3
+scipy==0.19.1
+yellowbrick==1.0.1
