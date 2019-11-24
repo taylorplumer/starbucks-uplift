@@ -48,13 +48,17 @@ Why would we not be prioritizing Control Responders as well? Well, those are eve
 
 ### Results
 
-![](https://github.com/taylorplumer/starbucks-uplift/blob/master/cumulative_gains_chart.png)
+![](https://github.com/taylorplumer/starbucks-uplift/blob/master/img/cumulative_gains_chart.png)
 
 The cumulative gains chart above shows performance of prioritizing the Treatment Responders with the uplift model compared to a random choice. 
 
 Performance could definitely be improved as measured by the area under the curve. A more predictive model would be pushed out more to the upper left.
 
 The 'days_as_member' feature is indicative of Treatment Responder with the median value being higher in the Treatment Class than the other classes.
+
+![](https://github.com/taylorplumer/starbucks-uplift/blob/master/img/Average_Conversion_Rate_by_OfferType_and_Channel.png)
+
+On average, the discount was the most successful offer type in terms of conversion. The channels all performed relatively similar in terms of conversion with the exception of the web, which underperformed relative to the rest for all offer types.
 
 
 ### Important Files:
