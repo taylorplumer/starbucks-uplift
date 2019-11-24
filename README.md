@@ -50,6 +50,13 @@ Why would we not be prioritizing Control Responders as well? Well, those are eve
 
 ![](https://github.com/taylorplumer/starbucks-uplift/blob/master/cumulative_gains_chart.png)
 
+The cumulative gains chart above shows performance of prioritizing the Treatment Responders with the uplift model compared to a random choice. 
+
+Performance could definitely be improved as measured by the area under the curve. A more predictive model would be pushed out more to the upper left.
+
+The 'days_as_member' feature is indicative of Treatment Responder with the median value being higher in the Treatment Class than the other classes.
+
+
 ### Important Files:
 
 1.  data/process_data.py: ETL script to clean and saves data to csv file
