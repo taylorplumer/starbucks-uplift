@@ -4,15 +4,24 @@ Build an uplift model with machine learning pipeline to prioritize promotional o
 ### Summary
 This project contains simulated Starbucks data of promotional offers and purchasing behavior. 
 
-The objective is to create an uplift model that scores and prioritizes events based on the event attributes. 
-
-The deliverable is a dashboard that contains visualizations, most notably the cumulative gains chart, which aid busines users in their assessment of model performance and target segment characteristicss. More details regardign the deliverable are below in the Results section.
+The deliverable is a dashboard that contains visualizations, most notably the cumulative gains chart, which aid busines users in their assessment of the uplift model performance and related target segment characteristics. More details regarding the deliverable are below in the Results section.
 
 The repository contains working code for running an ETL pipeline, ML pipeline, and Flask app locally. Instructions are below.
 
 ### Problem Statement
 
+An uplift model seeks to predict the incremental value from sending a promotion.
+
 The objective is to create an uplift model that scores and prioritizes events where offer is both viewed and a transaction is completed within the offer duration.
+
+A classification model will be developed to predict the results of an offer sent, which is termed as an "event" throughout this documentation.
+
+The classifications will be four target segments, which can be visualized in a 2x2 matrix
+
+[](https://www.predictiveanalyticsworld.com/patimes/wp-content/uploads/2017/03/Mike-Thurber-Graphic-2.png)
+
+The model will be evaluated with the use of a cumulative gains chart. 
+
 
 ### Instructions:
 1. Run the following commands in the project's root directory to set up your database and model.
