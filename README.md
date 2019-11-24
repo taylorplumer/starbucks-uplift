@@ -52,13 +52,18 @@ Why would we not be prioritizing Control Responders as well? Well, those are eve
 
 The cumulative gains chart above shows performance of prioritizing the Treatment Responders with the uplift model compared to a random choice. 
 
-Performance could definitely be improved as measured by the area under the curve. A more predictive model would be pushed out more to the upper left.
+Performance could definitely be improved as measured by the area under the curve. A more predictive model would be pushed out more to the upper left. 
 
 The 'days_as_member' feature is indicative of Treatment Responder with the median value being higher in the Treatment Class than the other classes.
 
 ![](https://github.com/taylorplumer/starbucks-uplift/blob/master/img/Average_Conversion_Rate_by_OfferType_and_Channel.png)
 
 On average, the discount was the most successful offer type in terms of conversion. The channels all performed relatively similar in terms of conversion with the exception of the web, which underperformed relative to the rest for all offer types.
+
+__Next Steps__
+
+1.  Other classification methods that take advantage of boosting, such as AdaBoost or XGBoos, could be employed to improve the performance of the uplift model. Currently the machine learning pipeline is limited to grid search on parameters for only a Random Forest classifier.
+2.  An alternative approach to feature engineering the 'treatment' and 'outcome' featueres. Currently, the set_outcome_treatment() function is used in the process_data.py file but is excessively slow. It takes approximately ~5 hours to run. Identifying functions native to Pandas and Numpy that more effectively utilize vector operations could be adopted to improve performance. 
 
 
 ### Important Files:
