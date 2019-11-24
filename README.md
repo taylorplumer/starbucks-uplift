@@ -16,7 +16,7 @@ The repository contains working code for running an ETL pipeline, ML pipeline, a
     - To run ML pipeline that trains classifier and outputs various csv files in data folder 
         `python model/build_model.py data/processed_data_11202019.csv.csv`
 
-Please note that the process_data.py file currently takes an (excessively) long time to run ~5 hours due to the set_treatment_outcome function's iterative approach. I've included a sample output entitled 'processed_data_11202019.csv.csv'
+Please note that the process_data.py file currently takes an (excessively) long time to run ~5 hours due to the set_treatment_outcome function's iterative approach. I've included a sample output entitled 'processed_data_11202019.csv'
 
 2. Run the following command to run your web app.
     `python myapp.py`
@@ -28,11 +28,11 @@ Please note that the process_data.py file currently takes an (excessively) long 
 
 An uplift model seeks to predict the incremental value from sending a promotion.
 
-The objective is to create an uplift model that scores and prioritizes events where offer is both viewed and a transaction is completed within the offer duration.
+The objective is to create an uplift model that scores and prioritizes events where an offer is both viewed and a transaction is completed within the offer duration.
 
 A classification model will be developed to predict the results of an offer sent, which is termed as an "event" throughout this documentation.
 
-The classifications will be four target segments, which are the following:
+The classification will be be based on four target segments, which are the following:
 
 1) Control Non-Responders (Treatment: 0, Outcome: 0)
 
@@ -42,15 +42,15 @@ The classifications will be four target segments, which are the following:
 
 4) Treatment Responders (Treatment: 1, Outcome: 1)
 
-The goal is to prioritize Treatment Responders in the outreach. This will be evaluated with the use of a cumulative gains chart, which will be discussed in more detail below. 
+The goal is to prioritize Treatment Responders in the outreach. Events will be sorted by uplift score. The results of this scoring will then be evaluated with the use of a cumulative gains chart.
 
-Why would we not be prioritizing Control Responders as well? Well, those are events that would be termed "sure things" in the marketing world. We're focused on the events where there is incremental value to be gained.
+Why would we not be prioritizing Control Responders as well? Well, those are events that would be termed "sure things" in the marketing world. The customer will buy with or without the treatment/offer. We're focused on the events where there is incremental value to be gained in an offer being sent.
 
 ### Results
 
 ![](https://github.com/taylorplumer/starbucks-uplift/blob/master/img/cumulative_gains_chart.png)
 
-The cumulative gains chart above shows performance of prioritizing the Treatment Responders with the uplift model compared to a random choice. 
+The cumulative gains chart above shows performance of prioritizing the Treatment Responders with the uplift model compared to a random choice model. 
 
 Performance could definitely be improved as measured by the area under the curve. A more predictive model would be pushed out more to the upper left. 
 
@@ -62,7 +62,7 @@ On average, the discount was the most successful offer type in terms of conversi
 
 __Next Steps__
 
-1.  Other classification methods that take advantage of boosting, such as AdaBoost or XGBoos, could be employed to improve the performance of the uplift model. Currently the machine learning pipeline is limited to grid search on parameters for only a Random Forest classifier.
+1.  Other classification methods that take advantage of boosting, such as AdaBoost or XGBoosy, could be employed to improve the performance of the uplift model. Boosting has a benefit of reducing bias so could help in providing some incremental gain to the model. Currently the machine learning pipeline is limited to grid search on parameters for only a Random Forest classifier.
 2.  An alternative approach to feature engineering the 'treatment' and 'outcome' featueres. Currently, the set_outcome_treatment() function is used in the process_data.py file but is excessively slow. It takes approximately ~5 hours to run. Identifying functions native to Pandas and Numpy that more effectively utilize vector operations could be adopted to improve performance. 
 
 
