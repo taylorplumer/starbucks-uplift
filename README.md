@@ -18,7 +18,7 @@ A classification model will be developed to predict the results of an offer sent
 
 The classifications will be four target segments, which can be visualized in a 2x2 matrix
 
-![](https://www.predictiveanalyticsworld.com/patimes/wp-content/uploads/2017/03/Mike-Thurber-Graphic-2.png =20x20)
+<div style="text-align:center"> <img src="https://www.predictiveanalyticsworld.com/patimes/wp-content/uploads/2017/03/Mike-Thurber-Graphic-2.png" width="250" height="250"> </div>
 
 The model will be evaluated with the use of a cumulative gains chart. 
 
