@@ -89,4 +89,4 @@ __Output Files__
 ###  Installation
 This project utilizes default packages within the Anaconda distribution of Python for the majority of the analysis. In addition, yellowbrick is included for exploratory data visualization for machine learning model development.
 
-A requirements.txt file is included for packages where I had issues without installing upgrades up to at the very least that version of the package.
+A requirements.txt file is included for packages where I had issues without installing upgrades up to at the very least that version of the package. However, it is not an exhaustive list. Please also refer to import packages in the various python files.
