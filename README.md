@@ -8,6 +8,22 @@ The deliverable is a dashboard that contains visualizations, most notably the cu
 
 The repository contains working code for running an ETL pipeline, ML pipeline, and Flask app locally. Instructions are below.
 
+### Instructions:
+1. Run the following commands in the project's root directory to set up your data and model.
+
+    - To run ETL pipeline that cleans data and stores processed data in a csv 
+        `python data/process_data.py data/processed_data.py`
+    - To run ML pipeline that trains classifier and outputs various csv files in data folder 
+        `python model/build_model.py data/processed_data_11202019.csv.csv`
+
+Please note that the process_data.py file currently takes an (excessively) long time to run ~5 hours due to the set_treatment_outcome function's iterative approach. I've included a sample output entitled 'processed_data_11202019.csv.csv'
+
+2. Run the following command to run your web app.
+    `python myapp.py`
+
+3. Go to http://0.0.0.0:3001/
+
+
 ### Problem Statement
 
 An uplift model seeks to predict the incremental value from sending a promotion.
@@ -16,32 +32,42 @@ The objective is to create an uplift model that scores and prioritizes events wh
 
 A classification model will be developed to predict the results of an offer sent, which is termed as an "event" throughout this documentation.
 
-The classifications will be four target segments, which can be visualized in a 2x2 matrix
+The classifications will be four target segments, which are the following:
 
-<div style="text-align:center"> <img src="https://www.predictiveanalyticsworld.com/patimes/wp-content/uploads/2017/03/Mike-Thurber-Graphic-2.png" width="250" height="250"> </div>
+1) Control Non-Responders (Treatment: 0, Outcome: 0)
 
-The model will be evaluated with the use of a cumulative gains chart. 
+2) Control Responders (Treatment: 0, Outcome: 1)
 
+3) Treatment Non-Responders (Treatment: 1, Outcome: 0)
 
-### Instructions:
-1. Run the following commands in the project's root directory to set up your database and model.
+4) Treatment Responders (Treatment: 1, Outcome: 1)
 
-    - To run ETL pipeline that cleans data and stores processed data in a csv 
-        `python data/process_data.py data/processed_data.py`
-    - To run ML pipeline that trains classifier and outputs various csv files in data folder
-        `python model/build_model.py data/dataframe.csv`
+The goal is to prioritize Treatment Responders in the outreach. This will be evaluated with the use of a cumulative gains chart, which will be discussed in more detail below. 
 
-2. Run the following command in the app's directory to run your web app.
-    `python myapp.py`
+Why would we not be prioritizing Control Responders as well? Well, those are events that would be termed "sure things" in the marketing world. We're focused on the events where there is incremental value to be gained.
 
-3. Go to http://0.0.0.0:3001/
+### Results
 
+![](https://github.com/taylorplumer/starbucks-uplift/blob/master/cumulative_gains_chart.png)
 
 ### Important Files:
 
 1.  data/process_data.py: ETL script to clean and saves data to csv file
-2.  models/train_classifier.py: builds, trains, evaluates, and  outputs results of machine learning classifier prediction
-4.  app/run.py: this file is used to run the Flask application
+2.  models/build_model.py: builds, trains, evaluates, and  outputs results of machine learning classifier prediction
+3.  data/visualizations.py: returns plotly visualizations for Flask application
+4.  myapp.py: this file is used to run the Flask application
+
+### Additional Files of note:
+
+__Analysis notebooks__
+
+1.  data/Exploratory_Data_Analysis.ipynb: jupyter notebook that explores initial data files and the data transformations necessary and conducted in the process_data.py file
+2.  model/Model_Exploratory_Development.ipynb: jupyter notebook that walks through the steps for initial machine learning model refinement
+
+__Output Files__
+1.  data/clean_df.csv: flat file resulting from feature_engineering() function in build_model.py file and used for data visualization in app
+2.  data/uplift_df.csv: flat file resulting from calc_uplift() function in build_model.py file that captures uplift scores
+3.  data/cum_gains_df.csv: flat file containing data for cumulative gains chart
 
 
 ###  Installation
