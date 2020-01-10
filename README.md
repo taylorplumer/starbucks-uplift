@@ -62,8 +62,8 @@ On average, the discount was the most successful offer type in terms of conversi
 
 __Next Steps__
 
-1.  Other classification methods that take advantage of boosting, such as AdaBoost or XGBoosy, could be employed to improve the performance of the uplift model. Boosting has a benefit of reducing bias so could help in providing some incremental gain to the model. Currently the machine learning pipeline is limited to grid search on parameters for only a Random Forest classifier.
-2.  An alternative approach to feature engineering the 'treatment' and 'outcome' featueres. Currently, the set_outcome_treatment() function is used in the process_data.py file but is excessively slow. It takes approximately ~5 hours to run. Identifying functions native to Pandas and Numpy that more effectively utilize vector operations could be adopted to improve performance. 
+1.  Other classification methods that take advantage of boosting, such as AdaBoost or XGBoost, could be employed to improve the performance of the uplift model. Boosting has a benefit of reducing bias so could help in providing some incremental gain to the model. Currently the machine learning pipeline is limited to grid search on parameters for only a Random Forest classifier.
+2.  An alternative approach to feature engineering the 'treatment' and 'outcome' features. Currently, the set_outcome_treatment() function is used in the process_data.py file but is excessively slow. It takes approximately ~5 hours to run. Identifying functions native to Pandas and Numpy that more effectively utilize vector operations could be adopted to improve performance. 
 
 
 ### Important Files:
