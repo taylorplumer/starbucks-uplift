@@ -181,7 +181,7 @@ def set_treatment_outcome(df):
         view_count = timeframe.event.unique().tolist().count('offer viewed')
         outcome = np.where(timeframe.event.unique().tolist().count('transaction')>0, 1, 0)
         treatment = np.where(timeframe.event.unique().tolist().count('offer viewed'),1,0)
-        combined = [treatment, outcome]
+        combined = [int(treatment), int(outcome)]
         return combined
 
 
@@ -232,9 +232,6 @@ def main():
 
         print('Determining treatment and outcome values...')
         processed_df = parallelize_dataframe(df, set_treatment_outcome)
-        print(processed_df.dtypes)
-
-        processed_df.to_csv('processed_intermediate_01272020.csv')
         offer_received = df.loc[df['event'] == 'offer received']
         combined_df = pd.DataFrame(processed_df.combined.astype(str).str.strip('[]').str.split(',', expand=True).values, columns=[ 'treatment','outcome'])
         output_df = offer_received.merge(combined_df, on=offer_received.index).drop(columns=['key_0'], axis=1)
