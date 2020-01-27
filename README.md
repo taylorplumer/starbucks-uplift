@@ -14,9 +14,9 @@ The repository contains working code for running an ETL pipeline, ML pipeline, a
     - To run ETL pipeline that cleans data and stores processed data in a csv 
         `python data/process_data.py data/processed_data.py`
     - To run ML pipeline that trains classifier and outputs various csv files in data folder 
-        `python model/build_model.py data/processed_data_11202019.csv.csv`
+        `python model/build_model.py data/processed_data.csv`
 
-Please note that the process_data.py file currently takes an (excessively) long time to run ~5 hours due to the set_treatment_outcome function's iterative approach. I've included a sample output entitled 'processed_data_11202019.csv'
+The process_data.py file takes advantage of Python's Multiprocessing Pool class to run the set_treatment_outcome function in parallel. The code assumes 4 cores but you can revise the parallelize_dataframe function to customize your set-up.
 
 2. Run the following command to run your web app.
     `python myapp.py`
@@ -63,7 +63,6 @@ On average, the discount was the most successful offer type in terms of conversi
 __Next Steps__
 
 1.  Other classification methods that take advantage of boosting, such as AdaBoost or XGBoost, could be employed to improve the performance of the uplift model. Boosting has a benefit of reducing bias so could help in providing some incremental gain to the model. Currently the machine learning pipeline is limited to grid search on parameters for only a Random Forest classifier.
-2.  An alternative approach to feature engineering the 'treatment' and 'outcome' features. Currently, the set_outcome_treatment() function is used in the process_data.py file but is excessively slow. It takes approximately ~5 hours to run. Identifying functions native to Pandas and Numpy that more effectively utilize vector operations could be adopted to improve performance. 
 
 
 ### Important Files:
