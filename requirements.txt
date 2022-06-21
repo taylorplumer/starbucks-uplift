@@ -1,6 +1,6 @@
 
 Flask==1.0
-numpy==1.17.4
+numpy==1.22.0
 pandas==0.25.3
 plotly==4.3.0
 scikit-learn==0.21.3
